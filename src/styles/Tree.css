@@ -1,0 +1,42 @@
+.tree--btns{
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+.tree--main{
+    flex: 1 1 auto;
+    overflow: auto;
+}
+.btn{
+    padding: 5px;
+    background-color: #ccc;
+    color: black;
+    text-transform: uppercase;
+    border-radius: 3px;
+    cursor: pointer;
+    user-select: none;
+    font-family: 'Poppins', sans-serif;
+}
+.btn:hover{
+    background-color: #aaa;
+}
+.btn--disabled{
+    opacity: .2;
+    cursor: auto;
+}
+.node{
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+}
+.node:hover{
+    background-color: #555;
+}
+.selected--node{
+    background-color: #666;
+}
+.selected--node:hover{
+    background-color: #666;
+}
+.editing--node{
+    color: black;
+}
