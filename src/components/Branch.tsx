@@ -1,47 +1,31 @@
 import React, { FC, useState } from 'react'
 import { TreeNode } from '../types/TreeNode'
 import '../styles/Tree.css'
+import { SelectedNode } from '../types/SelectedNode'
+import { TreeData } from '../types/TreeData'
 
 interface TreeProps {
   treeNode: TreeNode;
   level: number;
-
+  treeData: TreeData;
 }
-export class SelectedNode{
-  static selectedNode: SelectedNode | null = null;
-  static deselectNode() {
-    SelectedNode.selectedNode = null;
-  }
-  public isEditing: boolean = false;
-  private _treeNode: TreeNode;
-  private _element: Element;
-  setSelected: Function;
-  public get treeNode(){
-    return this._treeNode;
-  }
-  public get element(){
-    return this._element;
-  }
-  
-  constructor(treeNode: TreeNode, element: Element, setSelected: Function) {
-    this._treeNode = treeNode;
-    this._element = element;
-    this.setSelected = setSelected;
-  }
-}
-const Branch: FC<TreeProps> = ({treeNode, level}) => {
+const Branch: FC<TreeProps> = ({treeNode, level, treeData}) => {
   const [nodeContent, setNodeContent] = useState(treeNode.content);
-  const isSelected = treeNode == SelectedNode.selectedNode?.treeNode;
+  
+  const isSelected = treeNode == treeData.selectedNode?.treeNode;
+  const isEditing = isSelected && treeData.selectedNode?.isEditing;
   const [selected, setSelected] = useState(isSelected);
-
-  const isEditing = isSelected && SelectedNode.selectedNode?.isEditing;
   function select(target: EventTarget, node: TreeNode){
-    const selectedNode = SelectedNode.selectedNode;
-    SelectedNode.selectedNode?.setSelected(false);
+    const selectedNode = treeData.selectedNode;
+    treeData.selectedNode?.setSelected(false);
+
     if(selectedNode?.element == target)
-      SelectedNode.selectedNode = null;
+      treeData.deselectNode();
     else
-      SelectedNode.selectedNode = new SelectedNode(node, target as Element, setSelected);
+    {
+      const selectedNode = new SelectedNode(node, target as Element, setSelected);
+      treeData.setSelectedNode(selectedNode);
+    }
     setSelected(!isSelected);
   }
   function getElement(){
@@ -60,7 +44,7 @@ const Branch: FC<TreeProps> = ({treeNode, level}) => {
         <div>
           {
             treeNode.children.map(treeNode=> 
-              <Branch key={treeNode.id} treeNode={treeNode} level={level + 1}></Branch>
+              <Branch key={treeNode.id} treeNode={treeNode} level={level + 1} treeData={treeData}></Branch>
             )
           }
           </div> 
