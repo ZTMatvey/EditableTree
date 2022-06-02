@@ -4,12 +4,12 @@ import '../styles/Tree.css'
 import { SelectedNode } from '../types/SelectedNode'
 import { TreeData } from '../types/TreeData'
 
-interface TreeProps {
+interface BranchProps {
   treeNode: TreeNode;
   level: number;
   treeData: TreeData;
 }
-const Branch: FC<TreeProps> = ({treeNode, level, treeData}) => {
+const Branch: FC<BranchProps> = ({treeNode, level, treeData}) => {
   const [nodeContent, setNodeContent] = useState(treeNode.content);
   
   const isSelected = treeNode == treeData.selectedNode?.treeNode;

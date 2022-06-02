@@ -3,10 +3,13 @@ import  Branch  from './Branch'
 import { TreeData } from '../types/TreeData';
 import '../styles/App.css'
 import '../styles/Tree.css'
-import { useState } from 'react';
+import { FC, useState } from 'react';
 
-export default function Tree() {
-  const treeData = new TreeData();
+
+interface TreeProps {
+  treeData: TreeData;
+}
+const Tree: FC<TreeProps> = ({treeData}) => {
   const [tree, setTree] = useState<TreeNode[]>([]);
   function addNode(){    
     if(treeData.selectedNode != null)
@@ -67,3 +70,5 @@ export default function Tree() {
     </div>
   )
 }
+
+export default Tree;
